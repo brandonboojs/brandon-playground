@@ -1,0 +1,369 @@
+{
+  "info": {
+    "name": "Bank Statement Parser API",
+    "description": "API collection for Bank Statement Parser - Extract structured data from bank statements using OCR",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "apiVersion",
+      "value": "v1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Root",
+      "item": [
+        {
+          "name": "Get API Root",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            },
+            "description": "Get basic API information and navigation links"
+          },
+          "response": []
+        }
+      ],
+      "description": "Root endpoint providing API information"
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "health"]
+            },
+            "description": "Check if the service is running and healthy. Useful for monitoring and health probes."
+          },
+          "response": [
+            {
+              "name": "Healthy Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/{{apiVersion}}/health",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "{{apiVersion}}", "health"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"healthy\",\n  \"service\": \"doc-processor\",\n  \"version\": \"2.0.0\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Health check and monitoring endpoints"
+    },
+    {
+      "name": "Information",
+      "item": [
+        {
+          "name": "Get API Information",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/info",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "info"]
+            },
+            "description": "Retrieve comprehensive information about the API including supported formats, file size limits, and available endpoints."
+          },
+          "response": [
+            {
+              "name": "API Info Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/{{apiVersion}}/info",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "{{apiVersion}}", "info"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Bank Statement Parser API\",\n  \"version\": \"2.0.0\",\n  \"description\": \"API for processing bank statements using OCR technology\",\n  \"supported_formats\": [\n    {\n      \"mime_type\": \"application/pdf\",\n      \"extensions\": [\".pdf\"],\n      \"description\": \"Portable Document Format - Best for scanned documents\"\n    },\n    {\n      \"mime_type\": \"image/jpeg\",\n      \"extensions\": [\".jpg\", \".jpeg\"],\n      \"description\": \"JPEG image format - Good for photographs\"\n    },\n    {\n      \"mime_type\": \"image/png\",\n      \"extensions\": [\".png\"],\n      \"description\": \"PNG image format - Best for screenshots and high-quality images\"\n    }\n  ],\n  \"max_file_size\": \"10.00 MB\",\n  \"endpoints\": {\n    \"health\": \"/api/v1/health\",\n    \"info\": \"/api/v1/info\",\n    \"parse_bank_statement\": \"/api/v1/parse-bank-statement\"\n  }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "API information and capability discovery"
+    },
+    {
+      "name": "Bank Statements",
+      "item": [
+        {
+          "name": "Parse Bank Statement (PDF)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Upload a PDF bank statement file (max 10MB)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/parse-bank-statement",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "parse-bank-statement"]
+            },
+            "description": "Upload a PDF bank statement to extract structured information using OCR technology."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "bank_statement.pdf"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/{{apiVersion}}/parse-bank-statement",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "{{apiVersion}}", "parse-bank-statement"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"bank_name\": \"Chase Bank\",\n    \"account_holder_name\": \"John Doe\",\n    \"account_number\": \"****1234\",\n    \"confidence\": 0.95\n  },\n  \"message\": \"Document processed successfully\"\n}"
+            },
+            {
+              "name": "Invalid File Type",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "document.docx"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/{{apiVersion}}/parse-bank-statement",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "{{apiVersion}}", "parse-bank-statement"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"detail\": \"Invalid file type. Allowed types: application/pdf, image/jpeg, image/png\",\n  \"error_code\": \"INVALID_FILE_TYPE\"\n}"
+            },
+            {
+              "name": "File Too Large",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "large_file.pdf"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/{{apiVersion}}/parse-bank-statement",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "{{apiVersion}}", "parse-bank-statement"]
+                }
+              },
+              "status": "Payload Too Large",
+              "code": 413,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"detail\": \"File too large. Maximum size: 10.00MB\",\n  \"error_code\": \"FILE_TOO_LARGE\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Parse Bank Statement (Image)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Upload a JPG or PNG bank statement image (max 10MB)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/parse-bank-statement",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "parse-bank-statement"]
+            },
+            "description": "Upload a JPG or PNG image of a bank statement to extract structured information using OCR technology."
+          },
+          "response": []
+        }
+      ],
+      "description": "Operations for processing bank statements"
+    },
+    {
+      "name": "OpenAPI",
+      "item": [
+        {
+          "name": "Get OpenAPI Schema",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/openapi.json",
+              "host": ["{{baseUrl}}"],
+              "path": ["openapi.json"]
+            },
+            "description": "Retrieve the complete OpenAPI 3.0 specification for this API"
+          },
+          "response": []
+        }
+      ],
+      "description": "OpenAPI specification endpoints"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for all requests",
+          "console.log('Making request to:', pm.request.url.toString());"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Test script for all requests",
+          "pm.test('Status code is successful', function () {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+          "});",
+          "",
+          "pm.test('Response time is less than 5000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "pm.test('Content-Type is application/json', function () {",
+          "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+          "});"
+        ]
+      }
+    }
+  ]
+}
